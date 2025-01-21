@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../assets/css/style.css";
 import "../assets/css/style-2.css";
 import "../assets/css/index.css";
 import leftImage from "../assets/images/left_Img.png"
+import { Link, useNavigate } from 'react-router-dom';
+import { useAgentData } from '../Context/AgentContext';
 const Agent = () => {
+  const { agentData, setAgentData } = useAgentData();
+  const [link, setLink] = useState('');
+  const navigate = useNavigate();
+  function handleLinkChange(e) {
+    setLink(e.target.value); // Update the local state for the link field
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setAgentData(prevState => ({
+      ...prevState,
+      link: [...prevState.link, link], // Add the new link to the existing array
+    }));
+    // console.log(agentData)
+    navigate('/agent1');
+  }
+
+  
   return (
     <section
       className="common_spacing pb-0"
@@ -30,20 +50,22 @@ const Agent = () => {
                 maybe you made one yourself and want the world to know about it?
                 You're in the right place. So relax and follow the steps.
               </p>
-              <form action="">
+              <form action="" onSubmit={handleSubmit}>
                 <label htmlFor="product-link">Link to the product</label>
                 <input
                   type="text"
                   id="product-link"
                   placeholder="https://"
+                  onChange={handleLinkChange}
                 />
-                <button type="submit">Get Started</button>
+                <Link to=""><button type="submit" onClick={handleSubmit}>Get Started</button></Link>
                 <span>press “Enter” to continue</span>
               </form>
             </div>
           </div>
         </div>
       </div>
+      
     </section>
   );
 };

@@ -10,19 +10,16 @@ import Agent3 from "./Pages/Agent3";
 import Agent4 from "./Pages/Agent4";
 import Agent5 from "./Pages/Agent5";
 import Agent6 from "./Pages/Agent6";
+import AllRoutes from "./AllRoutes/AllRoutes";
+import { Dashboard } from "./Components/Dashboard";
+import { AgentProvider } from "./Context/AgentContext";
 
 function App() {
   return <>
-  <Navbar/>
-  {/* <Agent/> */}
-  {/* <Agent1/> */}
-  {/* <Agent2/> */}
-  {/* <Agent3/> */}
-  {/* <Agent4/> */}
-  {/* <Agent5/> */}
-  <Agent6/>
-  <Footer/>
-  </>;
+    {/* <AgentProvider> */}
+      <Dashboard/>
+    {/* </AgentProvider>  */}
+  </>
 }
 
 export default App;

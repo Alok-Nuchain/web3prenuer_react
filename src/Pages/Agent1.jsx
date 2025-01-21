@@ -2,12 +2,42 @@ import React from 'react';
 import "../assets/css/style.css";
 import "../assets/css/style-2.css";
 import "../assets/css/index.css";
-import left_svg1 from "../assets/images/left_svg1.png"
-import left_svg2 from "../assets/images/left_svg2.png"
-import left_svg3 from "../assets/images/left_svg3.png"
-import left_svg4 from "../assets/images/left_svg4.png"
-import left_svg5 from "../assets/images/left_svg5.png"
+import left_svg1 from "../assets/images/left_svg1.png";
+import left_svg2 from "../assets/images/left_svg2.png";
+import left_svg3 from "../assets/images/left_svg3.png";
+import left_svg4 from "../assets/images/left_svg4.png";
+import left_svg5 from "../assets/images/left_svg5.png";
+import { useAgentData } from '../Context/AgentContext';
+import { useNavigate } from 'react-router-dom';
+
 const Agent1 = () => {
+  const { agentData, setAgentData } = useAgentData();
+  const navigate = useNavigate();
+
+  // Handle input changes to update the context
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAgentData((prevState) => ({
+      ...prevState,
+      [name]: value, // Dynamically update the state based on the input name
+    }));
+  };
+
+  // Handle select change for category
+  const handleCategoryChange = (e) => {
+    const { value } = e.target;
+    setAgentData((prevState) => ({
+      ...prevState,
+      category: value,
+    }));
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(agentData)
+    navigate('/agent3');
+  }
+
   return (
     <section className="common_spacing" style={{ paddingTop: '77px' }}>
       <div
@@ -55,44 +85,86 @@ const Agent1 = () => {
                 <p>
                   We’ll need its name, tagline, links, launch tags, and description.
                 </p>
-                <form action="">
+                <form onSubmit={handleSubmit}>
+                  {/* Name */}
                   <label htmlFor="ai-agent-name">Name of the AI Agent</label>
-                  <input type="text" id="ai-agent-name" placeholder="AIXBT" />
+                  <input
+                    type="text"
+                    name="name"
+                    id="ai-agent-name"
+                    placeholder="AIXBT"
+                    value={agentData.name} // Controlled component
+                    onChange={handleChange} // Handle change
+                  />
+
+                  {/* Tagline */}
                   <label htmlFor="tagline">Tagline</label>
-                  <input type="text" id="tagline" />
+                  <input
+                    type="text"
+                    name="tagline"
+                    id="tagline"
+                    value={agentData.tagline} // Controlled component
+                    onChange={handleChange} // Handle change
+                  />
+
+                  {/* Category */}
                   <label htmlFor="category">Category</label>
                   <select
                     className="buttondown"
                     id="category"
-                    aria-label="Default select example"
+                    name="category"
+                    value={agentData.category} // Controlled component
+                    onChange={handleCategoryChange} // Handle category change
                   >
-                    <option value="" selected></option>
+                    <option value="">Select Category</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                   </select>
 
                   <hr className="my-4" style={{ borderColor: '#706f6f' }} />
+
                   <h5 className="mb-0 fw-bold">Links</h5>
 
+                  {/* Links */}
                   <label htmlFor="product-links">Links to the product</label>
                   <input
                     type="text"
                     id="product-links"
                     placeholder="https://aixbt.tech/"
+                    value={agentData.link.join(', ')} // Display all links
+                    readOnly // Make it read-only since it's just displaying data
                   />
                   <p>
-                    <a href="">+ Add more links </a>“App store, Google Play, Steam...”
+                    <a href="">+ Add more links</a> “App store, Google Play, Steam...”
                   </p>
+
+                  {/* X account */}
                   <label htmlFor="x-account">X account of the product</label>
-                  <input type="text" id="x-account" placeholder="" />
+                  <input
+                    type="text"
+                    name="x_account"
+                    id="x-account"
+                    value={agentData.x_account} // Controlled component
+                    onChange={handleChange} // Handle change
+                  />
+
                   <hr className="my-4" style={{ borderColor: '#706f6f' }} />
 
                   <h5 className="fw-bold">Description</h5>
-                  <label htmlFor="description">Description of the product</label>
-                  <textarea id="description" rows="5"></textarea>
 
-                  <button className="border_bottom">
+                  {/* Description */}
+                  <label htmlFor="description">Description of the product</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    value={agentData.description} // Controlled component
+                    onChange={handleChange} // Handle change
+                  ></textarea>
+
+                  {/* Submit button */}
+                  <button className="border_bottom" type="submit">
                     Next Step: Images & Media
                   </button>
                 </form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "../assets/css/style.css";
 import "../assets/css/style-2.css";
 import "../assets/css/index.css";
@@ -9,14 +9,33 @@ import left_svg4 from "../assets/images/left_svg4.png";
 import left_svg5 from "../assets/images/left_svg5.png";
 import checked from "../assets/images/checked.png";
 import new_circle from "../assets/images/new_circle.png";
+import { useAgentData } from "../Context/AgentContext";
+import axios from "axios";
 
 const Agent6 = () => {
+    const { agentData, setAgentData } = useAgentData(); // Access context
+
+    async function handleSubmit(){
+        console.log(agentData)
+        try {
+          const res = await axios.post(`http://47.236.124.38:8000/create-ai-product/`,agentData,{
+            headers: {
+              "Content-type": "multipart/form-data",
+            },
+          })
+          console.log(res.data)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
   return (
     <div>
-      <section className="common_spacing" style={{ paddingTop: '77px' }}>
+      <section className="common_spacing" style={{ paddingTop: "77px" }}>
         <div
           className="container_cutom"
-          style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', paddingTop: '40px' }}
+          style={{ borderTop: "1px solid rgba(0, 0, 0, 0.06)", paddingTop: "40px" }}
         >
           <div className="container">
             <div className="row">
@@ -58,121 +77,105 @@ const Agent6 = () => {
                   <h5 className="mb-3 fw-bold">
                     Required <span className="tag_h5">67% Complete</span>
                   </h5>
-                  <p>Check that you’ve completed all of the required information.</p>
+                  <p>
+                    Check that you’ve completed all of the required information.
+                  </p>
 
-                  <div className="required_list_items">
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked pink_bg pink_border">
-                        ✓
-                      </div>
-                      <p>Product name</p>
-                    </div>
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked light_green_bg light_green_border">
-                        ✓
-                      </div>
-                      <p>Thumbnail</p>
-                    </div>
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked purple_bg purple_border">
-                        ✓
-                      </div>
-                      <p>Product tagline</p>
-                    </div>
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked orange_border orange_bg">
-                        ✓
-                      </div>
-                      <p>Add images to the gallery</p>
-                    </div>
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked blue_border blue_bg">
-                        ✓
-                      </div>
-                      <p>Description</p>
-                    </div>
-                    <div className="required_list_items_box">
-                      <div className="required_list_items_boxchecked green_border green_bg">
-                        ✓
-                      </div>
-                      <p>Description</p>
-                    </div>
-                  </div>
-
-                  <div className="checkbox_pro_row_main">
-                    <div className="checkbox_pro_row active">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
-                      </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>Free</h6>
-                        <p>This product is free to use</p>
+                  <div className="required_list_items row">
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked pink_bg pink_border">
+                          ✓
+                        </div>
+                        <p>Product name</p>
                       </div>
                     </div>
-                    <div className="checkbox_pro_row">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
-                      </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>Paid</h6>
-                        <p>
-                          This product requires payment and there is no free option
-                        </p>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked light_green_bg light_green_border">
+                          ✓
+                        </div>
+                        <p>Thumbnail</p>
                       </div>
                     </div>
-                    <div className="checkbox_pro_row">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked purple_bg purple_border">
+                          ✓
+                        </div>
+                        <p>Product tagline</p>
                       </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>Paid (with a free trial or plan)</h6>
-                        <p>
-                          This product requires payment but also offers a free trial or version
-                        </p>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked orange_border orange_bg">
+                          ✓
+                        </div>
+                        <p>Add images to the gallery</p>
+                      </div>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked blue_border blue_bg">
+                          ✓
+                        </div>
+                        <p>Description</p>
+                      </div>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked green_border green_bg">
+                          ✓
+                        </div>
+                        <p>Description</p>
                       </div>
                     </div>
                   </div>
 
-                  <hr className="my-4" style={{ borderColor: '#706f6f' }} />
+                  <hr className="my-4" style={{ borderColor: "#706f6f" }} />
 
-                  <h5 className="pb-4 fw-bold">Access Model</h5>
+                  <h5 className="fw-bold">Strongly Recommended</h5>
+                  <p>
+                    Go the extra mile and add suggested information. Successful
+                    launches usually do.
+                  </p>
 
-                  <div className="checkbox_pro_row_main">
-                    <div className="checkbox_pro_row">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
-                      </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>Open Source</h6>
+                  <div className="required_list_items row">
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked pink_border"></div>
+                        <p>Access Model</p>
                       </div>
                     </div>
-                    <div className="checkbox_pro_row">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
-                      </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>API</h6>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked light_green_border"></div>
+                        <p>Write the first comment</p>
                       </div>
                     </div>
-                    <div className="checkbox_pro_row">
-                      <div className="checkbox_pro_row_left">
-                        <img src={checked} alt="" className="checked" />
-                        <img src={new_circle} alt="" className="unchecked" />
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked purple_border"></div>
+                        <p>Additional Makers</p>
                       </div>
-                      <div className="checkbox_pro_row_left">
-                        <h6>Closed Source</h6>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="required_list_items_box">
+                        <div className="required_list_items_boxchecked orange_border"></div>
+                        <p>Video / Loom</p>
                       </div>
                     </div>
                   </div>
 
-                  <button className="border_bottom">
-                    Next Step: Launch checklist
-                  </button>
+                  <ul className="waring_box_here">
+                    <li>• Description is required</li>
+                    <li>• Access Model is required</li>
+                  </ul>
+
+                  <button className="border_bottom px-5" onClick={handleSubmit}>Submit</button>
+                  <p className="mb-0 text-dark mt-3">
+                    Please complete the necessary steps to launch
+                  </p>
                 </div>
               </div>
             </div>
@@ -181,6 +184,6 @@ const Agent6 = () => {
       </section>
     </div>
   );
-}
+};
 
 export default Agent6;

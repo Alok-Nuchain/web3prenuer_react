@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../assets/css/style.css";
 import "../assets/css/style-2.css";
 import "../assets/css/index.css";
@@ -8,11 +8,52 @@ import left_svg3 from "../assets/images/left_svg3.png";
 import left_svg4 from "../assets/images/left_svg4.png";
 import left_svg5 from "../assets/images/left_svg5.png";
 import check from "../assets/images/check.png";
-import star from "../assets/images/star.png";
 import gallery from "../assets/images/gallery.png";
 import plus from "../assets/images/plus.png";
+import { useAgentData } from "../Context/AgentContext";
+import { useNavigate } from "react-router-dom";
 
 const Agent3 = () => {
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [thumbnailImage, setThumbnailImage] = useState(null);
+  const [headerFile, setHeaderFile] = useState(null);
+  const [headerImage, setHeaderImage] = useState(null);
+  const [videoLink, setVideoLink] = useState("");
+  const { agentData, setAgentData } = useAgentData();
+  const navigate = useNavigate();
+
+  const handleFileInputClick = (id) => {
+    document.getElementById(id).click();
+  };
+
+  const handleImageChange = (event, type) => {
+    const file = event.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      if (type === "thumbnail") {
+        setThumbnailFile(file);
+        setThumbnailImage(previewUrl);
+        setAgentData((prev) => ({ ...prev, thumbnail: file })); // Store file
+      } else if (type === "header") {
+        setHeaderFile(file);
+        setHeaderImage(previewUrl);
+        setAgentData((prev) => ({ ...prev, header_image: file })); // Store file
+      }
+    }
+  };
+
+  const handleVideoLinkChange = (e) => {
+    const link = e.target.value;
+    setVideoLink(link);
+    setAgentData((prev) => ({ ...prev, video_link: link }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(agentData); // Logs the updated agentData object
+    navigate("/agent6");
+  };
+
   return (
     <section className="common_spacing" style={{ paddingTop: "77px" }}>
       <div
@@ -92,52 +133,77 @@ const Agent3 = () => {
                 <h5 className="mb-0 fw-bold">Thumbnail</h5>
                 <p>Lets make your product nice!</p>
                 <div className="leftuser_agent_head mt-4 mb-2">
-                  <div className="leftuser_agent_border"></div>
+                  <div className="leftuser_agent_border">
+                    {thumbnailImage && (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          backgroundImage: `url(${thumbnailImage})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      ></div>
+                    )}
+                  </div>
                   <div className="leftuser_agent_head_right">
-                    <button className="leftuser_agent_head_right_upload mb-2">
+                    <button
+                      className="leftuser_agent_head_right_upload mb-2"
+                      onClick={() => handleFileInputClick("thumbnail-input")}
+                    >
                       Select an image
                     </button>
+                    <input
+                      type="file"
+                      className="d-none"
+                      id="thumbnail-input"
+                      name="thumbnail"
+                      onChange={(e) => handleImageChange(e, "thumbnail")}
+                    />
                     <p className="fw-light">
                       or <a href="#" style={{ fontSize: "12px" }}>Paste a URL</a>
                     </p>
                     <p className="fw-light">
                       Recommended size: 240*240 | JPG, PNG, GIF. Max size: 2MB
                     </p>
-                    <p className="fw-light">In progress</p>
-                  </div>
-                </div>
-                <div className="start_row d-flex align-items-center gap-2">
-                  <img
-                    src={star}
-                    alt="Preview Star"
-                    style={{ width: "30px", height: "30px" }}
-                  />
-                  <p className="mb-0">Preview of your product on the homepage.</p>
-                </div>
-                <div className="star_row_card">
-                  <div className="star_row_card_img">
-                    <img src={star} alt="Star" />
-                  </div>
-                  <div className="star_row_card_content">
-                    <h6 className="mb-0 fw-normal">Web3 AI Agents</h6>
-                    <p className="mb-0">19 Upvotes</p>
                   </div>
                 </div>
                 <hr className="my-4" style={{ borderColor: "#706f6f" }} />
                 <h5 className="mb-0 fw-bold">Header image</h5>
-                <div className="leftuser_agent_head mt-4">
-                  <div className="leftuser_agent_border"></div>
+                <div className="leftuser_agent_head mt-4 mb-2">
+                  <div className="leftuser_agent_border">
+                    {headerImage && (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          backgroundImage: `url(${headerImage})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      ></div>
+                    )}
+                  </div>
                   <div className="leftuser_agent_head_right">
-                    <button className="leftuser_agent_head_right_upload mb-2">
+                    <button
+                      className="leftuser_agent_head_right_upload mb-2"
+                      onClick={() => handleFileInputClick("header-input")}
+                    >
                       Select an image
                     </button>
+                    <input
+                      type="file"
+                      className="d-none"
+                      id="header-input"
+                      name="header_image"
+                      onChange={(e) => handleImageChange(e, "header")}
+                    />
                     <p className="fw-light">
                       or <a href="#" style={{ fontSize: "12px" }}>Paste a URL</a>
                     </p>
                     <p className="fw-light">
                       Recommended size: 240*240 | JPG, PNG, GIF. Max size: 2MB
                     </p>
-                    <p className="fw-light">In progress</p>
                   </div>
                 </div>
                 <hr className="my-4" style={{ borderColor: "#706f6f" }} />
@@ -171,15 +237,21 @@ const Agent3 = () => {
                   how to use your product or share your maker story. Video helps
                   you connect with viewers.
                 </p>
-                <form action="#">
+                <form action="" onSubmit={handleSubmit}>
                   <label>
                     Link to the video
                     <span style={{ float: "right", color: "#808494" }}>
                       optional
                     </span>
                   </label>
-                  <input type="text" placeholder="video of the product" />
-                  <button type="button" className="border_bottom">
+                  <input
+                    type="text"
+                    placeholder="Video link of the product"
+                    name="video_link"
+                    value={videoLink}
+                    onChange={handleVideoLinkChange}
+                  />
+                  <button type="submit" className="border_bottom">
                     Next Step: Images & Media
                   </button>
                 </form>
